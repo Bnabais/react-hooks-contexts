@@ -1,0 +1,10 @@
+.color-button {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+}
+
+.color-count {
+    margin: 0;
+}
