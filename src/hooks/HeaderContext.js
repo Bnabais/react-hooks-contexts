@@ -1,27 +1,34 @@
 import React, {
     useMemo,
-    useState,
     useCallback,
     createContext,
-    useContext
+    useContext,
+    useReducer
 } from 'react';
 import {COLORS} from '../utils/colors';
 
 const HeaderContext = createContext();
 
+const reducer = (state, action) => {
+    if (action.type === 'COLOR') {
+        return action.payload;
+    }
+    return state;
+};
+
 export function HeaderProvider(props) {
-    const [headerColorState, setHeaderColorState] = useState(COLORS.grey);
+    const [state, dispatch] = useReducer(reducer, COLORS.grey);
 
     const setHeaderColor = useCallback((color) => {
-        setHeaderColorState(color);
+        dispatch({type: 'COLOR', payload: color});
     }, []);
 
     const value = useMemo(
         () => ({
             setHeaderColor,
-            headerColorState
+            headerColorState: state
         }),
-        [setHeaderColor, headerColorState]
+        [setHeaderColor, state]
     );
 
     return <HeaderContext.Provider value={value} {...props} />;
